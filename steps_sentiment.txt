@@ -19,7 +19,7 @@ cat semeval_twitter_2013_2015_2016_train.csv >>sentiment140_semeval_train.csv
 cat sentiment140_test.csv >sentiment140_semeval_test.csv
 cat semeval_twitter_2013_2014_2015_2016_test.csv >>sentiment140_semeval_test.csv
 
-THEANO_FLAGS=floatX=float32,device=gpu python bin/cnn_pipeline_feat_semeval.py data/sentiment140_semeval_train_data.csv data/semeval_twitter_2013_2015_2016_dev_data.csv data/sentiment140_semeval_test_data.csv results/sentiment140_semeval_resulst_cnn.txt 
+THEANO_FLAGS=floatX=float32,device=gpu python bin/cnn_pipeline_sentiment.py data/sentiment140_semeval_train_data.csv data/semeval_twitter_2013_2015_2016_dev_data.csv data/sentiment140_semeval_test_data.csv results/sentiment140_semeval_resulst_cnn.txt 
 
 ## results on dev set
 P	R	F1 
@@ -27,6 +27,6 @@ P	R	F1
 
 
 
-THEANO_FLAGS=floatX=float32,device=gpu python bin/predict_data.py -c models/sentiment_best.hdf5.config -d data/semeval_twitter_2013_2015_2016_dev_data.csv -o labeled/data/semeval_twitter_2013_2015_2016_dev_labeled.csv
+THEANO_FLAGS=floatX=float32,device=gpu python bin/predict_data.py -c models/cnn_sentiment_best.hdf5.config -d data/semeval_twitter_2013_2015_2016_dev_data.csv -o labeled/data/semeval_twitter_2013_2015_2016_dev_labeled.csv
 
-THEANO_FLAGS=floatX=float32,device=gpu python bin/predict_data.py -c models/sentiment_best.hdf5.config -d data/1_9_2017_harvey_hemant_tweets_new_2017.csv -o labeled/1_9_2017_harvey_hemant_tweet_labeled.csv
+THEANO_FLAGS=floatX=float32,device=gpu python bin/predict_data.py -c models/cnn_sentiment_best.hdf5.config -d data/1_9_2017_harvey_hemant_tweets_new_2017.csv -o labeled/1_9_2017_harvey_hemant_tweet_labeled.csv

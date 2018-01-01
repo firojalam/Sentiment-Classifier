@@ -76,7 +76,7 @@ if __name__ == '__main__':
     embedding_layer=Embedding(output_dim=EMBEDDING_DIM, input_dim=nb_words, weights=[embedding_matrix], input_length=MAX_SEQUENCE_LENGTH,trainable=False)(inputs)
     
     callback = callbacks.EarlyStopping(monitor='val_acc',patience=30,verbose=0, mode='max')        
-    best_model_path="models/weights.best.hdf5"
+    best_model_path="models/lstm_sentiment_best.hdf5"
     checkpoint = ModelCheckpoint(best_model_path, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
     callbacks_list = [callback,checkpoint]        
     R,C=train_x.shape

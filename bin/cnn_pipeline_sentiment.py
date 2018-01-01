@@ -122,7 +122,7 @@ if __name__ == '__main__':
     cnn = cnn_filter.text_cnn(emb_model,word_index,MAX_NB_WORDS,EMBEDDING_DIM,MAX_SEQUENCE_LENGTH,inputs)        
     
     callback = callbacks.EarlyStopping(monitor='val_acc',patience=30,verbose=0, mode='max')        
-    best_model_path="models/sentiment_best.hdf5"
+    best_model_path="models/cnn_sentiment_best.hdf5"
     checkpoint = ModelCheckpoint(best_model_path, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
     callbacks_list = [callback,checkpoint]        
     R,C=train_x.shape
