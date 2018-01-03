@@ -33,9 +33,9 @@ cat semeval_twitter_2013_2014_2015_2016_test.csv >>sentiment140_semeval_test.csv
 ```
 
 ## Training the system
-
+```
 THEANO_FLAGS=floatX=float32,device=gpu python bin/cnn_pipeline_feat_semeval.py data/sentiment140_semeval_train_data.csv data/semeval_twitter_2013_2015_2016_dev_data.csv data/sentiment140_semeval_test_data.csv results/sentiment140_semeval_resulst_cnn.txt
-
+```
 
 ## Results on test set using CNN
 ```
@@ -51,4 +51,6 @@ P	R	F1
 
 
 ## Classify new data
+```
 THEANO_FLAGS=floatX=float32,device=gpu python bin/predict_data.py -c models/cnn_sentiment_best.hdf5.config -d data/semeval_twitter_2013_2015_2016_dev_data.csv -o labeled/semeval_twitter_2013_2015_2016_dev_labeled.csv
+```
