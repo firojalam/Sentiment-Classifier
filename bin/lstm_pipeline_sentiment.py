@@ -20,13 +20,60 @@ from keras.layers import Merge, LSTM, Dense, Bidirectional
 from keras.layers import Conv1D, MaxPooling1D, Embedding
 import keras.callbacks as callbacks
 from keras.callbacks import ModelCheckpoint
-import cnn.performance_semeval as performance
+import cnn.performance as performance
 import os
 import dnn_lex
+from keras.models import load_model
+import pickle
+import zipfile
+
 
 seed = 1337
 np.random.seed(seed)
 
+
+def save_model(model, model_file_name, tokenizer,label_encoder):
+
+    model_file=model_file_name+".hdf5"
+    tokenizer_file=model_file_name+".tokenizer"
+    label_encoder_file=model_file_name+".label_encoder"
+
+    configfile=model_file_name+".config"
+    configFile=open(configfile,"w")
+    configFile.write("model_file="+model_file+"\n")
+    configFile.write("tokenizer_file="+tokenizer_file+"\n")
+    configFile.write("label_encoder_file="+label_encoder_file+"\n")
+    configFile.close()
+    
+    files=[]
+    files.append(configfile)
+    
+    # serialize weights to HDF5
+    model.save(model_file)
+    files.append(model_file)
+    
+    # saving tokenizer
+    with open(tokenizer_file, 'wb') as handle:
+        pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    files.append(tokenizer_file)
+    
+    # saving label_encoder
+    with open(label_encoder_file, 'wb') as handle:
+        pickle.dump(label_encoder, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    files.append(label_encoder_file)
+
+#    print 'creating archive'
+#    zf = zipfile.ZipFile(model_file_name+'.zip', mode='w')    
+#    for zfile in files:
+#        try:
+#            print ('Adding '+zfile)
+#            zf.write(zfile)
+#        finally:
+#            print 'closing'
+#    zf.close()        
+#                
+#    print("Saved "+model_file+'.zip'+" to disk") 
+    
 if __name__ == '__main__':    
     # Read train-set data
     trainFile=sys.argv[1]
@@ -81,15 +128,19 @@ if __name__ == '__main__':
     callbacks_list = [callback,checkpoint]        
     R,C=train_x.shape
 
-    lstm=Bidirectional(LSTM(output_dim=256, activation='sigmoid', inner_activation='hard_sigmoid'))(embedding_layer)    
+    lstm=Bidirectional(LSTM(units=256, activation='sigmoid', recurrent_activation='hard_sigmoid'))(embedding_layer)    
     network=Dense(200,activation='relu')(lstm)
     network=Dense(100,activation='relu')(network)
 
     out=Dense(nb_classes, activation='softmax')(network)
     model=Model(inputs=inputs,outputs=out)
     model.compile(loss='categorical_crossentropy',optimizer='Adagrad',metrics=['accuracy'])
-    model.fit([train_x], train_y, batch_size=batch_size, nb_epoch=nb_epoch,verbose=0, validation_data=([dev_x], dev_y))
+    model.fit([train_x], train_y, batch_size=batch_size, epochs=nb_epoch,verbose=0, validation_data=([dev_x], dev_y))
     
+    ###save the model
+    #model.save(best_model_path)
+    save_model(model,best_model_path,tokenizer,train_le)
+    #model = load_model(best_model_path)
 
 
     

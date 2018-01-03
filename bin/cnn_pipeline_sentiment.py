@@ -60,31 +60,18 @@ def save_model(model, model_file_name, tokenizer,label_encoder):
         pickle.dump(label_encoder, handle, protocol=pickle.HIGHEST_PROTOCOL)
     files.append(label_encoder_file)
 
-    print 'creating archive'
-    zf = zipfile.ZipFile(model_file_name+'.zip', mode='w')    
-    for zfile in files:
-        try:
-            print ('Adding '+zfile)
-            zf.write(zfile)
-        finally:
-            print 'closing'
-    zf.close()        
-                
-    print("Saved "+model_file+'.zip'+" to disk")  
-
+#    print 'creating archive'
+#    zf = zipfile.ZipFile(model_file_name+'.zip', mode='w')    
+#    for zfile in files:
+#        try:
+#            print ('Adding '+zfile)
+#            zf.write(zfile)
+#        finally:
+#            print 'closing'
+#    zf.close()        
+#                
+#    print("Saved "+model_file+'.zip'+" to disk")  
     
-def load_nn_model(model_yaml,model_weight):
-    # load YAML and create model
-    yaml_file = open(model_yaml, 'r')
-    loaded_model_yaml = yaml_file.read()
-    yaml_file.close()
-    loaded_model = model_from_yaml(loaded_model_yaml)
-    
-    # load weights into new model
-    loaded_model.load_weights(model_weight)
-    loaded_model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-    print("Loaded model from disk")
-    return loaded_model
     
     
 if __name__ == '__main__':    
@@ -138,7 +125,7 @@ if __name__ == '__main__':
     model.fit([train_x], train_y, batch_size=batch_size, epochs=nb_epoch,verbose=1, validation_data=([dev_x], dev_y),callbacks=callbacks_list)
 
     ###save the model
-    model.save(best_model_path)
+    #model.save(best_model_path)
     save_model(model,best_model_path,tokenizer,train_le)
     model = load_model(best_model_path)
     

@@ -21,10 +21,48 @@ cat semeval_twitter_2013_2014_2015_2016_test.csv >>sentiment140_semeval_test.csv
 
 THEANO_FLAGS=floatX=float32,device=gpu python bin/cnn_pipeline_sentiment.py data/sentiment140_semeval_train_data.csv data/semeval_twitter_2013_2015_2016_dev_data.csv data/sentiment140_semeval_test_data.csv results/sentiment140_semeval_resulst_cnn.txt 
 
-## results on dev set
-P	R	F1 
-0.638416833667	0.632605210421	0.635511022044
+THEANO_FLAGS=floatX=float32,device=gpu python bin/lstm_pipeline_sentiment.py data/sentiment140_semeval_train_data.csv data/semeval_twitter_2013_2015_2016_dev_data.csv data/sentiment140_semeval_test_data.csv results/sentiment140_semeval_resulst_lstm.txt 
 
+## results on dev set
+### CNN
+             precision    recall  f1-score   support
+
+   negative       0.53      0.56      0.54       354
+   positive       0.75      0.73      0.74       644
+
+avg / total       0.67      0.67      0.67       998
+
+0
+0.726291214027	0.692708214218	0.701770535544
+
+0.00	0.00	72.63	69.27	70.18
+
+             precision    recall  f1-score   support
+
+   negative       0.45      0.62      0.52      2864
+   positive       0.83      0.72      0.77      7630
+
+avg / total       0.73      0.69      0.71     10494
+
+####### LSTM
+             precision    recall  f1-score   support
+
+   negative       0.64      0.69      0.66       354
+   positive       0.82      0.78      0.80       644
+
+avg / total       0.76      0.75      0.75       998
+
+0
+0.791749571184	0.75	0.765416428435
+
+0.00	0.00	79.17	75.00	76.54
+
+             precision    recall  f1-score   support
+
+   negative       0.53      0.75      0.62      2864
+   positive       0.89      0.75      0.82      7630
+
+avg / total       0.79      0.75      0.76     10494
 
 
 THEANO_FLAGS=floatX=float32,device=gpu python bin/predict_data.py -c models/cnn_sentiment_best.hdf5.config -d data/semeval_twitter_2013_2015_2016_dev_data.csv -o labeled/data/semeval_twitter_2013_2015_2016_dev_labeled.csv
