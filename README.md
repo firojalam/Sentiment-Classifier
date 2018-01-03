@@ -51,4 +51,4 @@ P	R	F1
 
 
 ## Classify new data
-THEANO_FLAGS=floatX=float32,device=gpu python bin/predict_data.py -c models/sentiment_best.hdf5.config -d data/semeval_twitter_2013_2015_2016_dev_data.csv -o labeled/data/semeval_twitter_2013_2015_2016_dev_labeled.csv
+THEANO_FLAGS=floatX=float32,device=gpu python bin/predict_data.py -c models/cnn_sentiment_best.hdf5.config -d data/semeval_twitter_2013_2015_2016_dev_data.csv -o labeled/semeval_twitter_2013_2015_2016_dev_labeled.csv
