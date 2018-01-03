@@ -37,10 +37,16 @@ cat semeval_twitter_2013_2014_2015_2016_test.csv >>sentiment140_semeval_test.csv
 THEANO_FLAGS=floatX=float32,device=gpu python bin/cnn_pipeline_feat_semeval.py data/sentiment140_semeval_train_data.csv data/semeval_twitter_2013_2015_2016_dev_data.csv data/sentiment140_semeval_test_data.csv results/sentiment140_semeval_resulst_cnn.txt
 
 
-## Results on dev set
+## Results on test set using CNN
 ```
 P	R	F1
-0.638416833667	0.632605210421	0.635511022044
+72.63	69.27	70.18
+```
+
+## Results on test set using Bi-LSTM
+```
+P	R	F1
+79.17	75.00	76.54
 ```
 
 
